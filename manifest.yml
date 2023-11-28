@@ -1,0 +1,110 @@
+Manifest-files:
+==============
+kind: Pod  
+apiVersion: v1   
+metadata:  
+   name: app32
+   namespace: dev    
+   labels:
+      tier: fe  
+spec:
+   containers:
+   - name: app 
+     image: mylandmarktech/hello   
+     ports: 
+     - containerPort: 80 
+
+kind: ReplicationController    
+apiVersion: v1   
+metadata:  
+   name: app32
+   namespace: dev    
+   labels:
+      tier: fe  
+spec:
+   selector:
+      app: web  
+   template:
+      metadata:
+         name: app 
+         labels:
+            app: web  
+      spec:
+         containers:
+         - name: app 
+           image: mylandmarktech/hello   
+           ports: 
+           - containerPort: 80 
+
+
+kind: ReplicaSet    
+apiVersion: apps/v1   
+metadata:  
+   name: app32
+   namespace: dev    
+   labels:
+      tier: fe  
+spec:
+   replicas: 3
+   selector:
+      matchLabels:
+         app: web
+   template:
+      metadata:
+         name: app 
+         labels:
+            app: web  
+      spec:
+         containers:
+         - name: app 
+           image: mylandmarktech/hello   
+           ports: 
+           - containerPort: 80 
+---
+kind: DaemonSet    
+apiVersion: apps/v1   
+metadata:  
+   name: app32
+   namespace: dev    
+   labels:
+      tier: fe  
+spec:
+   selector:
+      matchLabels:
+         app: web
+   template:
+      metadata:
+         name: app 
+         labels:
+            app: web  
+      spec:
+         containers:
+         - name: app 
+           image: mylandmarktech/hello   
+           ports: 
+           - containerPort: 80 
+---
+kind: ReplicaSet    
+apiVersion: apps/v1   
+metadata:  
+   name: app32
+   namespace: dev    
+   labels:
+      tier: fe  
+spec:
+   strategy:
+   replicas: 3
+   selector:
+      matchLabels:
+         app: web
+   template:
+      metadata:
+         name: app 
+         labels:
+            app: web  
+      spec:
+         containers:
+         - name: app 
+           image: mylandmarktech/hello   
+           ports: 
+           - containerPort: 80 
