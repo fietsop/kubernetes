@@ -1,0 +1,46 @@
+kind: ReplicaSet   
+apiVersion: apps/v1  
+metadata:  
+  name: mongors    
+spec:
+  selector:
+    matchLabels:
+      app: mongo     
+  template:
+    metadata:  
+      labels:
+        app: mongo    
+    spec: 
+      containers:
+      - name: mongodbcontainer    
+        image: mongo      
+        ports:
+        - containerPort: 27017    
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: devdb
+        - name: MONGO_INITDB_ROOT_PASSWORD 
+          value: devdb@123
+---
+kind: Service 
+apiVersion:  v1  
+metadata:  
+   name: mongosvc 
+spec:
+  selector:
+    app: mongo    
+  ports:
+  - port: 27017 
+    targetPort: 27017  
+
+---
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+           env:
+           - name: MONGO_DB_HOSTNAME  
+             value: mongosvc  
+           - name: MONGO_DB_USERNAME 
+             value: devdb   
+           - name: MONGO_DB_PASSWORD
+             value: devdb@123   
